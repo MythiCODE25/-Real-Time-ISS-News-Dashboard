@@ -90,13 +90,13 @@ function SidebarContent({ collapsed, setCollapsed, isDark, toggleTheme }) {
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="p-4 flex items-center gap-3 border-b" style={{ borderColor: 'rgba(99,102,241,0.15)' }}>
+      <div className={`p-4 ${collapsed ? 'px-2' : ''} flex items-center transition-all duration-300 border-b`} style={{ borderColor: 'rgba(99,102,241,0.15)' }}>
         <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
           style={{ background: 'linear-gradient(135deg, #6366f1, #a855f7)' }}>
           <Globe size={18} className="text-white" />
         </div>
         {!collapsed && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="ml-3">
             <div className="font-bold text-sm" style={{ color: isDark ? '#f1f5f9' : '#0f172a' }}>
               SpaceTrack AI
             </div>
@@ -106,7 +106,7 @@ function SidebarContent({ collapsed, setCollapsed, isDark, toggleTheme }) {
         {/* Collapse button (desktop only) */}
         <button
           onClick={() => setCollapsed(c => !c)}
-          className="ml-auto p-1.5 rounded-lg hidden lg:flex items-center justify-center transition-colors hover:bg-primary-500/10"
+          className={`${collapsed ? 'mx-auto' : 'ml-auto'} p-1.5 rounded-lg hidden lg:flex items-center justify-center transition-all hover:bg-primary-500/10`}
           style={{ color: isDark ? '#64748b' : '#94a3b8' }}
         >
           {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
@@ -177,13 +177,7 @@ function SidebarContent({ collapsed, setCollapsed, isDark, toggleTheme }) {
           )}
         </button>
 
-        {/* Version badge */}
-        {!collapsed && (
-          <div className="px-3 py-1.5 text-xs" style={{ color: isDark ? '#475569' : '#94a3b8' }}>
-            <Zap size={10} className="inline mr-1 text-primary-400" />
-            FOAI End Sem Project
-          </div>
-        )}
+
       </div>
     </div>
   );

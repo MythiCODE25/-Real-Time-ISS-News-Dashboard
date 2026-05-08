@@ -1,6 +1,6 @@
 # 🛸 SpaceTrack AI Dashboard
 
-> **FOAI End Semester Project** — A production-quality React + Vite web application featuring real-time ISS tracking, live news intelligence, and an AI-powered chatbot.
+> **SpaceTrack AI** — A production-quality React + Vite web application featuring real-time ISS tracking, live news intelligence, and an AI-powered chatbot.
 
 ![Dashboard Preview](./preview.png)
 
@@ -27,7 +27,7 @@
 - Responsive 3-column grid layout
 
 ### 🤖 ARIA AI Chatbot
-- Powered by **Mistral-7B-Instruct** via Hugging Face API
+- Powered by **Qwen 2.5 7B Instruct** via Hugging Face API
 - **Context-restricted** — answers ONLY using dashboard data
 - Floating chat button (bottom-right)
 - Last 30 messages stored in **localStorage**
@@ -152,7 +152,7 @@ npm run preview
 | wheretheiss.at | `https://api.wheretheiss.at/v1/satellites/25544` | ISS position & velocity |
 | open-notify.org | `http://api.open-notify.org/astros.json` | Astronaut crew data |
 | NewsData.io | `https://newsdata.io/api/1/news` | News articles |
-| Hugging Face | `https://api-inference.huggingface.co/v1/chat/completions` | AI chatbot (Mistral-7B) |
+| Hugging Face | `https://api-inference.huggingface.co/v1/chat/completions` | AI chatbot (Qwen 2.5 7B) |
 | CartoDB | Leaflet map tiles | Dark/light map tiles |
 
 ---
@@ -172,14 +172,11 @@ npm run preview
 | Variable | Description |
 |----------|-------------|
 | `VITE_NEWS_API_KEY` | NewsData.io API key for news fetching |
-| `VITE_HF_TOKEN` | Hugging Face token for Mistral-7B chatbot |
+| `VITE_HF_TOKEN` | Hugging Face token for Qwen 2.5 7B chatbot |
 
 > ⚠️ Never commit `.env` to version control. It's included in `.gitignore`.
 
 ---
 
-## 👨‍💻 Project Info
-
-- **Course**: Foundations of AI (FOAI)
-- **Type**: End Semester Project
+- **Type**: Real-Time Dashboard Project
 - **Stack**: React + Vite + Tailwind CSS + Framer Motion

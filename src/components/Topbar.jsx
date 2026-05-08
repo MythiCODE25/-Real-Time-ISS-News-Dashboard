@@ -48,19 +48,7 @@ export default function Topbar({ onMenuClick }) {
         </p>
       </div>
 
-      {/* Search bar (desktop) */}
-      <div className="hidden md:flex items-center gap-2 px-3 py-2 rounded-xl border text-sm"
-        style={{
-          background: isDark ? 'rgba(99,102,241,0.06)' : 'rgba(99,102,241,0.04)',
-          borderColor: isDark ? 'rgba(99,102,241,0.15)' : 'rgba(99,102,241,0.1)',
-          color: isDark ? '#64748b' : '#94a3b8',
-          minWidth: 180,
-        }}>
-        <Search size={14} />
-        <span className="text-xs">Quick search...</span>
-        <span className="ml-auto text-xs border rounded px-1"
-          style={{ borderColor: 'currentColor', opacity: 0.5 }}>⌘K</span>
-      </div>
+
 
       {/* Live badge */}
       <div className="flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold"

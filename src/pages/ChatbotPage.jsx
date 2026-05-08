@@ -49,7 +49,7 @@ export default function ChatbotPage() {
             ARIA — AI Assistant
           </h1>
           <p className="text-sm mt-0.5" style={{ color: isDark ? '#64748b' : '#94a3b8' }}>
-            Powered by Mistral-7B • Restricted to dashboard data only
+            Powered by Qwen 2.5 7B Instruct • Restricted to dashboard data only
           </p>
         </div>
         <button onClick={clearChat} className="btn-ghost text-red-400 border-red-400/20 hover:bg-red-400/10">
