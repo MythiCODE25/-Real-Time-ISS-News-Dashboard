@@ -91,27 +91,27 @@ Names: ${astronauts.map(a => a.name).join(', ')}
         content: m.content,
       }));
 
-      const response = await fetch(
-        'https://api-inference.huggingface.co/v1/chat/completions',
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_HF_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            model: 'mistralai/Mistral-7B-Instruct-v0.2',
-            messages: [
-              { role: 'system', content: systemWithContext },
-              ...conversationHistory,
-              { role: 'user', content: userInput },
-            ],
-            max_tokens: 300,
-            temperature: 0.3,
-            stream: false,
-          }),
-        }
-      );
+      // /api/chat is handled by:
+      //   dev  → Vite proxy (vite.config.js) injects HF_TOKEN and forwards to HF
+      //   prod → Vercel serverless function (api/chat.js) injects HF_TOKEN server-side
+      // The HF token is NEVER sent from the browser in either environment.
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'Qwen/Qwen2.5-7B-Instruct',
+          messages: [
+            { role: 'system', content: systemWithContext },
+            ...conversationHistory,
+            { role: 'user', content: userInput },
+          ],
+          max_tokens: 350,
+          temperature: 0.3,
+          stream: false,
+        }),
+      });
 
       if (!response.ok) {
         const errText = await response.text();

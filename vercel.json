@@ -1,0 +1,17 @@
+{
+  "rewrites": [
+    {
+      "comment": "Any path that does NOT start with /api is served by the React SPA",
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}
