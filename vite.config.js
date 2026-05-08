@@ -20,10 +20,10 @@ export default defineConfig(({ mode }) => {
          * so it never appears in the browser bundle.
          */
         '/api/chat': {
-          target: 'https://api-inference.huggingface.co',
+          target: 'https://router.huggingface.co',
           changeOrigin: true,
           secure: true,
-          rewrite: () => '/models/Qwen/Qwen2.5-7B-Instruct/v1/chat/completions',
+          rewrite: () => '/v1/chat/completions',
           configure: (proxy) => {
             proxy.on('proxyReq', (proxyReq) => {
               const token = env.HF_TOKEN;

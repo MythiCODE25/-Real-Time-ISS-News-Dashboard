@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
   try {
     const { data, status } = await axios.post(
-      'https://api-inference.huggingface.co/models/Qwen/Qwen2.5-7B-Instruct/v1/chat/completions',
+      'https://router.huggingface.co/v1/chat/completions',
       req.body,
       {
         headers: {
