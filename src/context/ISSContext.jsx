@@ -55,11 +55,8 @@ export function ISSProvider({ children }) {
   const fetchAstronauts = useCallback(async () => {
     if (astronautFetchedRef.current) return; // already succeeded once
     try {
-      // Try corsproxy.io → open-notify (5 s timeout to avoid hanging)
-      const res = await fetchWithTimeout(
-        'https://corsproxy.io/?url=http://api.open-notify.org/astros.json',
-        5000
-      );
+      // Use our own serverless proxy at /api/astronauts — no CORS issues
+      const res = await fetchWithTimeout('/api/astronauts', 8000);
       if (!res.ok) throw new Error(`Status ${res.status}`);
       const json = await res.json();
       const people = json?.people;
@@ -68,7 +65,7 @@ export function ISSProvider({ children }) {
         astronautFetchedRef.current = true;
       }
     } catch {
-      // All astronaut APIs failed — static fallback is already set, so do nothing
+      // Astronaut API failed — static fallback is already set, so do nothing
       console.warn('Astronaut API unavailable — using static crew list');
     }
   }, []);

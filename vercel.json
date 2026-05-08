@@ -4,12 +4,19 @@
   "functions": {
     "api/chat.js": {
       "maxDuration": 30
+    },
+    "api/astronauts.js": {
+      "maxDuration": 10
     }
   },
   "rewrites": [
     {
       "source": "/api/chat",
       "destination": "/api/chat.js"
+    },
+    {
+      "source": "/api/astronauts",
+      "destination": "/api/astronauts.js"
     },
     {
       "source": "/(.*)",

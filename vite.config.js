@@ -34,6 +34,18 @@ export default defineConfig(({ mode }) => {
             });
           },
         },
+        /**
+         * Dev proxy: /api/astronauts → api.open-notify.org
+         *
+         * Mirrors the Vercel serverless function (api/astronauts.js) in dev,
+         * so there are no CORS issues locally either.
+         */
+        '/api/astronauts': {
+          target: 'http://api.open-notify.org',
+          changeOrigin: true,
+          secure: false,
+          rewrite: () => '/astros.json',
+        },
       },
     },
   };
