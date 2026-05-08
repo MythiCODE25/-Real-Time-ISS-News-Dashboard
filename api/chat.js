@@ -1,42 +1,49 @@
+import axios from 'axios';
+
 /**
- * Vercel Serverless Function — /api/chat
+ * Vercel Serverless Function — POST /api/chat
  *
- * This runs on Vercel's Node.js edge. The HF_TOKEN env var is
- * read server-side only, so it is NEVER shipped in the browser bundle.
+ * Uses axios (already in project deps) instead of native fetch so it
+ * works on any Node.js version Vercel might use.
  *
- * In dev: Vite proxy intercepts /api/chat and adds the token before
- *         forwarding to HF — same security model.
- *
- * In prod: Vercel routes /api/chat here automatically.
+ * Required env var (set in Vercel dashboard → Settings → Environment Variables):
+ *   HF_TOKEN = your Hugging Face token
  */
 export default async function handler(req, res) {
-  // Only allow POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const hfToken = process.env.HF_TOKEN;
   if (!hfToken) {
-    return res.status(500).json({ error: 'HF_TOKEN environment variable is not set.' });
+    console.error('[api/chat] HF_TOKEN is not set in environment variables');
+    return res.status(500).json({
+      error: 'Server misconfiguration: HF_TOKEN is not set. Add it in Vercel → Project Settings → Environment Variables.',
+    });
   }
 
   try {
-    const hfRes = await fetch(
+    const { data, status } = await axios.post(
       'https://api-inference.huggingface.co/v1/chat/completions',
+      req.body,
       {
-        method: 'POST',
         headers: {
           Authorization: `Bearer ${hfToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(req.body),
+        timeout: 25000, // 25 s — stays within Vercel Hobby 30 s limit
       }
     );
 
-    const data = await hfRes.json();
-    return res.status(hfRes.status).json(data);
+    return res.status(status).json(data);
   } catch (err) {
-    console.error('[api/chat] Upstream error:', err);
-    return res.status(502).json({ error: 'Failed to reach Hugging Face API.' });
+    // axios wraps HTTP errors in err.response
+    if (err.response) {
+      console.error('[api/chat] HF API error:', err.response.status, err.response.data);
+      return res.status(err.response.status).json(err.response.data);
+    }
+    // Network / timeout error
+    console.error('[api/chat] Network error:', err.message);
+    return res.status(502).json({ error: `Failed to reach Hugging Face API: ${err.message}` });
   }
 }
